@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-
+from time_features import read_datetime
+from time_features import new_time_cols
 
 '''
 Creating and droping features in columns(no rows involved)
@@ -8,9 +9,9 @@ Creating and droping features in columns(no rows involved)
 
 def drop_useless(df):
 	''' give column name. In case we use tail csv they are unnamed. Drop useless columns.'''
-	df = df.drop(columns=['Call Number','Incident Number', 'Watch Date',
+	df = df.drop(columns=['Call Number','Incident Number', 'Call Date', 'Watch Date',
 		'Call Final Disposition', 'Address', 'City', 'Battalion','Station Area', 
-		'Box', 'Priority', 'Final Priority', 'Fire Prevention District', 'Supervisor District'], inplace=True)
+		'Box', 'Priority', 'Final Priority', 'Fire Prevention District', 'Supervisor District', 'RowID'], inplace=True)
 	#return df
 
 
@@ -24,6 +25,12 @@ def drop_useless(df):
 	# 	'Unit sequence in call dispatch', 'Fire Prevention District', 'Supervisor District', 
 	# 	'Neighborhooods - Analysis Boundaries', 'Location', 'RowID']
 
+cols =['Received DtTm', 'Dispatch DtTm', 'Response DtTm','On Scene DtTm', 'Transport DtTm', 
+		'Hospital DtTm', 'Available DtTm']
+
+def time_cols(df):
+	read_datetime(cols, df)
+	new_time_cols(df)
 
 
 def fill_na_zipcode(df):
