@@ -5,15 +5,13 @@ import pandas as pd
 cols = a list of column names that should be parse as datetime. 
 Includes 7 of 10 date&time cols that will be used in next steps.
 '''
-df = pd.read_csv('Fire_Dep_Call_20%.csv')
+#df = pd.read_csv('Fire_Dep_Call_20%.csv')
 cols =['Received DtTm', 'Dispatch DtTm', 'Response DtTm','On Scene DtTm', 'Transport DtTm', 
 		'Hospital DtTm', 'Available DtTm']
 
 def read_datetime(cols,df):
 	for col in cols:
 		df[col] = pd.to_datetime(df[col],format='%m/%d/%Y %I:%M:%S %p', infer_datetime_format=True)
-
-read_datetime(cols, df)
 
 
 '''
