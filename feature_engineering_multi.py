@@ -60,3 +60,54 @@ def original_priority_na(df):
 	orig_prio_shares = q.tolist() #makes values of shares a list
 	df['Original Priority'] = df['Original Priority'].fillna(pd.Series(np.random.choice(orig_prio_list, 
 		p=orig_prio_shares, size=len(df))))
+
+# def unit_type_dummies(df):
+# 	dummies = pd.get_dummies(df['Unit Type'])
+#	return pd.concat([df,dummies], axis=1)
+
+def call_group_merge(df):
+	def get_group(x):
+		if x == 'Medical Incident':
+			return 'Medical Incident'
+		elif x == 'Structure Fire':
+			return 'Structure Fire'
+		elif x == 'Alarms':
+			return 'Alarms'
+		else:
+			return 'Other'
+
+	df['Call Type Merged']=df['Call Type'].map(get_group)
+	# #df = pd.get_dummies(data=df, columns=['Call Type Merged'])
+	# return pd.get_dummies(data=df, columns=['Call Type Merged'])
+
+
+def call_group_na(df):
+	'''
+	Filling NA for call type group based on most popular group for each of calls. 
+	Stored as dict. For most its 90%+ cases'''
+	zx = df[['Call Type', 'Call Type Group']].groupby(['Call Type Group', 'Call Type']).size()
+	zx_df = pd.DataFrame(zx)
+	zx_df.columns = ['Count']
+	zx_df = zx_df['Count'].unstack(level=0)
+	q = zx_df.idxmax(axis=1)
+	calls = list(q.index)
+	groups = list(q.values)
+	call_type_dict = dict(zip(calls,groups))
+	df['Call Type Group'] = df['Call Type Group'].fillna(df['Call Type'].map(call_type_dict))
+	
+#dum_list = ['Unit Type', 'Call Type Merged']
+def dummies_all(df):
+	dum_list = ['Unit Type', 'Call Type Merged']
+	for col in dum_list:
+		dummies = pd.get_dummies(df[col], prefix=col, drop_first=True)
+		df[dummies.columns]= dummies
+
+	
+
+
+# def call_merged_group(df):
+# 	df['Medical Type'] = (df['Call Type']== 'Medical Incident')*1
+# 	df['Structure Fire Type'] = (df['Call Type']== 'Structure Fire')*1
+# 	df['Alarms Type'] = (df['Call Type']== 'Alarms')*1
+# 	df['Other Type'] = ((df['Call Type'] != 'Medical Incident') & (df['Call Type'] != 'Structure Fire') & (df['Call Type'] != 'Alarms'))*1
+#     
