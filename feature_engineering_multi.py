@@ -32,7 +32,7 @@ def time_cols(df):
 	time_features.read_datetime(cols, df)
 	time_features.new_time_cols(df)
 	time_features.fix_negative_values(df)
-	time_features.intervals(df)
+
 
 def fill_na_zipcode(df):
 	'''

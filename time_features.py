@@ -41,33 +41,6 @@ def new_time_cols(df):
 
 def fix_negative_values(df):
 	'''
-	Eliminate negative time values that occur due to 
-	
+	Eliminate negative time values that occur by mistake of input data.
 	'''
-	def get_max(x):
-		return max(x,0)
-	df['Call to Dispatch'] = df['Call to Dispatch'].map(get_max)
-	df['Respond to On Scene'] =df['Respond to On Scene'].map(get_max)
-	df['On Scene to Available']= df['On Scene to Available'].map(get_max)
-	
-
-def intervals(df):
-	df['Minutes']=df['Received DtTm'].dt.minute
-		
-	def min_intervals(x):
-		if x < 15:
-			return '0-14'
-	    if x < 30:
-			return '15-29'
-		if x < 45:
-			return '30-44'
-		else:
-	        return '45-59'
-	df['Minutes intervals'] = df['Minutes'].map(min_intervals)
-
-
-def time_dummies(df):
-	dum_list = ['Month', 'WeekDay', 'Hours', 'Minutes intervals']
-	for col in dum_list:
-		dummies = pd.get_dummies(df[col], prefix=col, drop_first=True)
-		df[dummies.columns]= dummies
+	df['Call to Dispatch'] = df['Call to Dispatch'].map(lambda x: max(x,0))
