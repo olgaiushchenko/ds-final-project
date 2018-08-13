@@ -24,4 +24,7 @@ To run model from terminal:
 ```
 $ python scripts/model.py
 ```
-You will need to type name and location of file(dataset) to apply model to.
+You will need to type name and location of file(dataset) to apply model to. Example: 
+```
+$python scripts/model.py data/dataset.csv
+```
