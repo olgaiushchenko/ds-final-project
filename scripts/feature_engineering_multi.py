@@ -110,8 +110,9 @@ def fix_box(df):
 	Replace value 'AI02' with a numeric and store it as int so model takes this column 
 	input as numeric. 
 	'''
-	df[df['Box'] == 'AI02'] = 0  
-	df['Box'] = df['Box'].astype(int)
+	if 'AI02' in df['Box'].values:
+		df[df['Box'] == 'AI02'] = 0  
+		df['Box'] = df['Box'].astype(int)
 
 
 def run_features(df):
