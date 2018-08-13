@@ -15,10 +15,13 @@ Model is build using CatBoost Regressor (based on Gradient Boost Algorythm).
 
 
 # Setup
+```
 $ pip install catboost
 $ git clone https://github.com/olgaiushchenko/ds-final-project.git
 $ wget https://data.sfgov.org/api/views/nuek-vuh3/rows.csv?accessType=DOWNLOAD
-
+```
 To run model from terminal:
+```
 $ python scripts/model.py
+```
 You will need to type name and location of file(dataset) to apply model to.
